@@ -1,12 +1,22 @@
+import 'dart:io';
+
 import 'package:ecom_user/providers/user_provider.dart';
 import 'package:ecom_user/utils/widget_functions.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-class UserProfilePage extends StatelessWidget {
+class UserProfilePage extends StatefulWidget {
   static const String routeName = '/userprofile';
 
   const UserProfilePage({super.key});
+
+  @override
+  State<UserProfilePage> createState() => _UserProfilePageState();
+}
+
+class _UserProfilePageState extends State<UserProfilePage> {
+  String? localImagePath;
 
   @override
   Widget build(BuildContext context) {
@@ -79,9 +89,32 @@ class UserProfilePage extends StatelessWidget {
         child: Center(
           child: Row(
             children: [
-              const Icon(
-                Icons.person_outline_rounded,
-                size: 100,
+              Stack(
+                alignment: AlignmentDirectional.centerStart,
+                children: [
+                  localImagePath == null
+                      ? const Icon(
+                          Icons.person_outline_rounded,
+                          size: 100,
+                        )
+                      : Image.file(
+                          File(localImagePath!),
+                          height: 100,
+                          width: 100,
+                        ),
+                  IconButton(
+                    onPressed: () async {
+                      final imageUrl = await Provider.of<UserProvider>(context,
+                              listen: false)
+                          .uploadImage(localImagePath!);
+                      _getImage(ImageSource.gallery);
+                    },
+                    icon: const Icon(Icons.camera_alt),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                width: 20,
               ),
               Column(
                 mainAxisSize: MainAxisSize.min,
@@ -106,5 +139,15 @@ class UserProfilePage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _getImage(ImageSource source) async {
+    final file =
+        await ImagePicker().pickImage(source: source, imageQuality: 80);
+    if (file != null) {
+      setState(() {
+        localImagePath = file.path;
+      });
+    }
   }
 }
