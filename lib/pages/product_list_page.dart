@@ -1,6 +1,7 @@
 import 'package:ecom_user/custom_widgets/cart_badge_view.dart';
 import 'package:ecom_user/providers/cart_provider.dart';
 import 'package:ecom_user/providers/order_provider.dart';
+import 'package:ecom_user/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -24,6 +25,7 @@ class _ProductListPageState extends State<ProductListPage> {
     Provider.of<ProductProvider>(context, listen: false).getAllProducts();
     Provider.of<CartProvider>(context, listen: false).getAllUserCartItems();
     Provider.of<OrderProvider>(context, listen: false).getAllUserOrders();
+    Provider.of<UserProvider>(context, listen: false).getUserSnapshot();
     super.didChangeDependencies();
   }
 

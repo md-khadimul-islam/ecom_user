@@ -31,6 +31,11 @@ class DbHelper {
           String uid) =>
       _db.collection(collectionUsers).doc(uid).get();
 
+  static Stream<DocumentSnapshot<Map<String, dynamic>>> getUserSnapshotInfoById (String uid) =>
+      _db.collection(collectionUsers)
+      .doc(uid)
+      .snapshots();
+
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllProducts() => _db
       .collection(collectionProduct)
       .where('available', isEqualTo: true)
@@ -121,6 +126,10 @@ class DbHelper {
 
   static Future<void> updateProductField(String pid, Map<String, dynamic> map) {
     return _db.collection(collectionProduct).doc(pid).update(map);
+  }
+
+  static Future<void> updateUserField(String uid, Map<String, dynamic> map) {
+    return _db.collection(collectionUsers).doc(uid).update(map);
   }
 
   static Future<void> addRating(RatingModel ratingModel, String pid) {

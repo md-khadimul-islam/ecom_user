@@ -6,6 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
 class UserProvider extends ChangeNotifier {
+  AppUser? appUser;
+
   Future<void> addNewUser(User user) {
     final appUser = AppUser(
       id: user.uid,
@@ -13,6 +15,21 @@ class UserProvider extends ChangeNotifier {
       userCreationTime: Timestamp.fromDate(user.metadata.creationTime!),
     );
     return DbHelper.addUser(appUser);
+  }
+
+  getUserSnapshot () {
+    DbHelper.getUserSnapshotInfoById(AuthService.currentUser!.uid).listen((snapshot) {
+      appUser = AppUser.fromJson(snapshot.data()!);
+      notifyListeners();
+    });
+  }
+
+  Future<void> updateUserDisplayName(String value) {
+    return DbHelper.updateUserField(AuthService.currentUser!.uid, {'displayName' : value});
+  }
+  
+  Future<void> updateUserPhoneNumber(String value) {
+    return DbHelper.updateUserField(AuthService.currentUser!.uid, {'phoneNumber' : value});
   }
 
   Future<AppUser> getUser() async {

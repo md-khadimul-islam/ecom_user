@@ -2,6 +2,7 @@ import 'package:ecom_user/auth/auth_service.dart';
 import 'package:ecom_user/pages/cart_page.dart';
 import 'package:ecom_user/pages/launcher_screen.dart';
 import 'package:ecom_user/pages/user_order_page.dart';
+import 'package:ecom_user/pages/user_profile_page.dart';
 import 'package:flutter/material.dart';
 
 class MainDrawer extends StatelessWidget {
@@ -19,6 +20,7 @@ class MainDrawer extends StatelessWidget {
           ListTile(
             onTap: () {
               Navigator.pop(context);
+              Navigator.pushNamed(context, UserProfilePage.routeName);
             },
             leading: const Icon(Icons.person),
             title: const Text('My Profile'),
