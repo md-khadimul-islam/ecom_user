@@ -99,8 +99,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         )
                       : Image.file(
                           File(localImagePath!),
-                          height: 100,
-                          width: 100,
+                          height: 90,
+                          width: 90,
                         ),
                   IconButton(
                     onPressed: () async {
@@ -114,7 +114,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 ],
               ),
               const SizedBox(
-                width: 20,
+                width: 10,
               ),
               Column(
                 mainAxisSize: MainAxisSize.min,
